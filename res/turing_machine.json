@@ -1,0 +1,17 @@
+{
+    "STATES": ["S", "A", "B", "F"],
+    "INPUT_SYMBOLS": ["0", "1"],
+    "TAPE_SYMBOLS": ["0", "1", "B"],
+    "BLANK_SYMBOL": "B",
+    "INITIAL_STATE": "S",
+    "ACCEPT_STATE": "F",
+    "TRANSITIONS": [
+        "S 1 1 R A",
+        "S 0 0 R S",
+        "S B B R F",
+        "A 0 0 R B",
+        "A 1 1 R S",
+        "B 1 1 R B",
+        "B 0 0 R A"
+    ]
+}
