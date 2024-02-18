@@ -19,7 +19,7 @@ class TMSimulator:
         self.current_state = self.start
         self.transition_function = {}
         self.start_index = self.head
-        self.end_index = 0
+        self.end_index = self.head + 1
 
         # build the transition function from the configuration
         for transition in turing_machine_data[transitions]:
@@ -69,6 +69,7 @@ class TMSimulator:
                 self.tape = self.tape[:self.head] + w + self.tape[self.head+1:] # Write the symbol to the tape
                 if d != 'N':
                     self.head = self.head + (1 if d == 'R' else -1) # Move the head right or left
+                    self.end_index = self.head + 1                  # Update the end_index of the tape
                 self.current_state = q1 # Move to the next state
                 return True     # Return true for valid transition
             else:
