@@ -86,7 +86,7 @@ class TMSimulator:
                     self.tape += self.blank
 
                 self.current_state = q1
-                self.end_index = max(self.end_index, self.head + 1)
+                self.end_index = self.head + 1
 
                 return True
             else:
