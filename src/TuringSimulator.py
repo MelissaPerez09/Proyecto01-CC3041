@@ -1,5 +1,5 @@
 
-N = 1_000
+N = 10000
 
 class TMSimulator:
     def __init__(self, turing_machine_data: dict) -> None:
@@ -61,23 +61,40 @@ class TMSimulator:
     # executes one step of the Turing machine
     def step(self) -> bool:
         if self.current_state != self.accept:
-            # assert self.head >= 0 and self.head < len(self.tape) here
+            if self.head < 0:
+                self.tape = self.blank + self.tape 
+                self.head = 0 
+                self.start_index += 1
+                self.end_index += 1
+
+            if self.head >= len(self.tape):
+                self.tape += self.blank 
+
             a = self.tape[self.head]
             action = self.transition_function.get((self.current_state, a))
+
             if action:
                 w, d, q1 = action
-                self.tape = self.tape[:self.head] + w + self.tape[self.head+1:] # Write the symbol to the tape
-                if d != 'N':
-                    self.head = self.head + (1 if d == 'R' else -1) # Move the head right or left
-                    self.end_index = self.head + 1                  # Update the end_index of the tape
-                self.current_state = q1 # Move to the next state
-                return True     # Return true for valid transition
+                self.tape = self.tape[:self.head] + w + self.tape[self.head+1:]
+
+                if d == 'R':
+                    self.head += 1
+                elif d == 'L':
+                    self.head -= 1
+
+                if self.head == len(self.tape):
+                    self.tape += self.blank
+
+                self.current_state = q1
+                self.end_index = max(self.end_index, self.head + 1)
+
+                return True
             else:
-                return False    # Return false if theres no transition found (Halt)
+                return False
         return True
     
     # initiates the derivation process with the given input
-    def derivate(self, input: str, max_iter=9999, print_steps=False) -> bool: # iterations limit for when the string is not accepted
+    def derivate(self, input: str, max_iter=999999, print_steps=False) -> bool: # iterations limit for when the string is not accepted
         self.tape = self.tape[:self.head] + input + self.tape[self.head:]   # Insert input in the middle of the tape
         self.end_index = self.head + len(input) - 1
         iter = 0
