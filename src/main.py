@@ -13,7 +13,7 @@ sim = TMSimulator(turing_machine)
 startTime = time.time()
 
 # simulation input
-input = "111111111111111"
+input = "111111111"
 accepted = sim.derivate(input, print_steps=True)
 
 endTime = time.time()
@@ -33,7 +33,7 @@ print(f"Result in decimal notation: '{sim.get_tape_string().count('1')}'")
 
 executionTime = endTime - startTime
 print(f"Execution time: {executionTime:.5f} seconds")
-with open('res/timeResults.csv', mode='a') as results_file:
+with open('analysis/timeResults.csv', mode='a') as results_file:
     results_writer = csv.writer(results_file)
     results_writer.writerow([input, executionTime])
     file.close()
